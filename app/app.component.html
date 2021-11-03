@@ -1,0 +1,48 @@
+<div id="data-grid-demo">
+  <dx-button (click)="service.loadAllStatements()" text="Load Data"></dx-button>
+  <dx-data-grid
+    id="gridContainer"
+    keyExpr="ID"
+    [dataSource]="dataSource | async"
+  >
+    <dxo-paging [enabled]="false"></dxo-paging>
+    <dxo-editing mode="popup" [allowUpdating]="true">
+      <dxo-form [colCount]="1"></dxo-form>
+    </dxo-editing>
+
+    <dxo-selection mode="single"></dxo-selection>
+
+    <dxi-column dataField="ID" caption="ID" [width]="70"></dxi-column>
+    <dxi-column dataField="Name"></dxi-column>
+
+    <dxi-column
+      dataField="GroupID"
+      caption="Group"
+      [width]="125"
+      [setCellValue]="setgroup"
+    >
+      <dxo-lookup [dataSource]="groups" displayExpr="Name" valueExpr="ID">
+      </dxo-lookup>
+    </dxi-column>
+
+    <dxi-column dataField="PropertyID" [setCellValue]="setgroup">
+      <dxo-lookup
+        [dataSource]="getfilterprops"
+        displayExpr="Name"
+        valueExpr="ID"
+      >
+      </dxo-lookup>
+    </dxi-column>
+
+    <dxi-column dataField="DataTypeID">
+      <dxo-lookup
+        [dataSource]="getfilterdatatypes"
+        displayExpr="Name"
+        valueExpr="ID"
+      >
+      </dxo-lookup>
+    </dxi-column>
+  </dx-data-grid>
+</div>
+
+{{ (dataSource | async) ? 'not null' : 'null' }}
